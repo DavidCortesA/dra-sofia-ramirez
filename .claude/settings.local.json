@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.genevievefriedmann.com)",
+      "WebFetch(domain:www.blancabradleytherapy.com)",
+      "WebFetch(domain:www.humantothefullest.com)",
+      "WebFetch(domain:www.katemoodylpc.com)",
+      "WebFetch(domain:www.gigiwoodallmft.com)",
+      "Bash(dir \"C:\\\\Users\\\\DAVID CORTEZ\\\\Documents\\\\GitHub\\\\psicologo\")",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)"
+    ]
+  }
+}
