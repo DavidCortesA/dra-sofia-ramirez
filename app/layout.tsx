@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { LanguageProvider } from "@/lib/i18n/LanguageProvider";
+import CookieBanner from "@/components/CookieBanner";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.psicologamonterrey.mx"),
   title: "Dra. Sofía Ramírez | Psicóloga en Monterrey | Terapia para Ansiedad y Trauma",
   description:
     "Psicóloga profesional en Monterrey especializada en ansiedad, trauma y relaciones. Atención presencial y online. Agenda tu primera sesión hoy. Psicólogo cerca de mí, terapia emocional.",
@@ -37,7 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body>{children}</body>
+      <body>
+        <LanguageProvider>
+          {children}
+          <CookieBanner />
+        </LanguageProvider>
+      </body>
     </html>
   );
 }

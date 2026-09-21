@@ -1,112 +1,98 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import { Leaf, Star, ShieldCheck } from "lucide-react";
+import { useRef } from "react";
+import {
+  ArrowUpRight,
+  Sparkles,
+  CalendarCheck,
+  ShieldCheck,
+  HeartHandshake,
+  Video,
+} from "lucide-react";
+import { fadeUp, staggerContainer, EASE } from "@/lib/motion";
+import Underline from "@/components/Underline";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
-const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  show:   { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-};
-
-const stagger = {
-  show: { transition: { staggerChildren: 0.18 } },
-};
+const featureIcons = [CalendarCheck, HeartHandshake, ShieldCheck, Video];
 
 export default function Hero() {
+  const marqueeRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({
+    target: marqueeRef,
+    offset: ["start end", "end start"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? ["0%", "0%"] : ["5%", "-55%"]);
+  const { t } = useLanguage();
+  const marqueeItems = t.hero.marqueeItems;
+  const features = t.hero.features.map((label, i) => ({ label, Icon: featureIcons[i] }));
+
   return (
-    <section
-      id="inicio"
-      className="relative min-h-screen flex items-center overflow-hidden bg-warm-cream"
-    >
-      {/* Fondo con textura orgánica */}
-      <div className="absolute inset-0 texture-warm" />
-
-      {/* Círculo decorativo sage */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-sage-100/60 -translate-y-1/4 translate-x-1/4 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-terracota-100/40 translate-y-1/3 -translate-x-1/4 blur-3xl" />
-
-      <div className="relative container-wide px-6 md:px-8 pt-24 pb-16 md:pt-32 md:pb-24">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
-
+    <section id="inicio" className="relative overflow-hidden bg-sage-800 texture-dots">
+      <div className="relative min-h-screen flex flex-col justify-center container-wide px-6 md:px-8 pt-28 pb-16">
+        <div className="grid md:grid-cols-12 gap-y-14 gap-x-10 items-center">
           {/* Texto */}
           <motion.div
-            variants={stagger}
+            variants={staggerContainer(0.12)}
             initial="hidden"
             animate="show"
-            className="order-2 md:order-1"
+            className="md:col-span-7"
           >
-            {/* Etiqueta pequeña */}
-            <motion.div variants={fadeUp} className="inline-flex items-center gap-2 mb-6">
-              <span className="w-8 h-px bg-terracota-400" />
-              <span className="text-xs font-sans uppercase tracking-widest text-terracota-500 font-medium">
-                Psicóloga Clínica · Monterrey
-              </span>
-            </motion.div>
+            <motion.span
+              variants={fadeUp}
+              className="inline-flex items-center gap-2 bg-white/10 text-warm-white text-xs font-sans font-medium uppercase tracking-wide px-4 py-2 rounded-full mb-7"
+            >
+              <Sparkles size={13} className="text-terracota-300" />
+              {t.hero.kicker}
+            </motion.span>
 
-            {/* Título principal */}
             <motion.h1
               variants={fadeUp}
-              className="font-display text-4xl md:text-5xl lg:text-6xl text-sage-900 leading-[1.1] mb-6"
+              className="font-display text-4xl md:text-6xl font-bold leading-[1.05] text-warm-white mb-6"
             >
-              No tienes que
-              <span className="italic text-terracota-500"> cargar sola </span>
-              con todo lo que sientes
+              {t.hero.titleBefore}{" "}
+              <Underline color="text-terracota-400">{t.hero.titleAccent}</Underline>{" "}
+              {t.hero.titleAfter}
             </motion.h1>
 
-            {/* Subtítulo */}
             <motion.p
               variants={fadeUp}
-              className="font-sans text-lg md:text-xl text-sage-700 leading-relaxed mb-8 max-w-lg"
+              className="font-sans text-lg text-warm-white/70 leading-relaxed mb-9 max-w-md"
             >
-              La terapia puede ayudarte a entenderte mejor, sanar lo que duele
-              y encontrar la calma que mereces. Juntas construiremos ese camino.
+              {t.hero.subtitle}
             </motion.p>
 
-            {/* Indicadores de confianza */}
-            <motion.div
-              variants={fadeUp}
-              className="flex flex-wrap gap-4 mb-10 text-sm text-sage-600 font-sans"
-            >
-              {["Sesiones presenciales y online", "+8 años de experiencia", "Primera sesión sin compromiso"].map(
-                (item) => (
-                  <span key={item} className="flex items-center gap-1.5">
-                    <ShieldCheck size={13} className="text-sage-400 flex-shrink-0" />
-                    {item}
-                  </span>
-                )
-              )}
-            </motion.div>
-
-            {/* CTAs */}
-            <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4">
+            <motion.div variants={fadeUp} className="flex flex-wrap gap-3">
               <a
                 href="#contacto"
-                className="inline-flex items-center justify-center px-8 py-4 bg-sage-500 hover:bg-sage-600 text-warm-white font-medium rounded-full transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 text-base"
+                className="group inline-flex items-center justify-center gap-2 px-7 py-4 bg-terracota-400 hover:bg-terracota-500 text-sage-900 font-sans font-semibold rounded-full transition-all duration-300 text-base"
               >
-                Agenda tu primera sesión
+                {t.hero.ctaPrimary}
+                <ArrowUpRight size={17} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
               <a
                 href="#sobre-mi"
-                className="inline-flex items-center justify-center px-8 py-4 border border-sage-300 hover:border-sage-500 text-sage-700 hover:text-sage-900 font-medium rounded-full transition-all duration-200 bg-warm-white/60 hover:bg-warm-white text-base"
+                className="inline-flex items-center justify-center px-7 py-4 border border-white/25 hover:bg-white/5 text-warm-white font-sans font-medium rounded-full transition-all duration-200 text-base"
               >
-                Conóceme primero
+                {t.hero.ctaSecondary}
               </a>
             </motion.div>
           </motion.div>
 
-          {/* Imagen */}
+          {/* Tarjeta de foto con bloque de color offset */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, x: 30 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
-            className="order-1 md:order-2 relative"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: EASE, delay: 0.25 }}
+            className="md:col-span-5 relative h-[420px] md:h-[480px] mx-auto max-w-sm w-full"
           >
-            {/* Forma orgánica de fondo */}
-            <div className="absolute inset-0 -m-4 bg-sage-100 rounded-[60%_40%_55%_45%_/_40%_60%_40%_60%] transform rotate-3" />
+            {/* Bloque plano detrás, offset */}
+            <div className="absolute -bottom-5 -right-5 w-full h-full rounded-[1.75rem] bg-terracota-400" />
 
-            {/* Foto principal */}
-            <div className="relative rounded-[45%_55%_60%_40%_/_50%_45%_55%_50%] overflow-hidden aspect-[4/5] shadow-2xl">
+            {/* Foto */}
+            <div className="absolute inset-0 rounded-[1.75rem] overflow-hidden shadow-2xl">
               <Image
                 src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=85"
                 alt="Dra. Sofía Ramírez — Psicóloga en Monterrey"
@@ -114,54 +100,78 @@ export default function Hero() {
                 className="object-cover object-top"
                 priority
               />
-              {/* Overlay sutil */}
-              <div className="absolute inset-0 bg-gradient-to-t from-sage-900/20 via-transparent to-transparent" />
+
+              {/* Overlay inferior con credencial */}
+              <div className="absolute bottom-0 left-0 right-0 bg-sage-900/85 backdrop-blur-sm px-5 py-4">
+                <p className="font-display text-sm font-semibold text-warm-white">
+                  {t.hero.cardName}
+                </p>
+                <p className="font-sans text-xs text-warm-white/70 mt-0.5">
+                  {t.hero.cardLicense}
+                </p>
+                <span className="inline-flex items-center gap-1.5 mt-2 text-xs font-sans text-sage-200">
+                  <span className="w-1.5 h-1.5 rounded-full bg-sage-300" />
+                  {t.hero.cardAvailable}
+                </span>
+              </div>
             </div>
 
-            {/* Badge flotante */}
+            {/* Badge sparkle flotante */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
-              className="absolute -bottom-4 -left-4 md:-left-8 bg-warm-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-beige-200"
+              initial={{ opacity: 0, scale: 0.7 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.9, duration: 0.5, ease: EASE }}
+              className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-warm-white shadow-lg flex items-center justify-center"
             >
-              <div className="w-10 h-10 rounded-full bg-terracota-100 flex items-center justify-center">
-                <Leaf size={18} className="text-terracota-500" />
-              </div>
-              <div>
-                <p className="font-display text-sm font-semibold text-sage-800">Espacio seguro</p>
-                <p className="text-xs text-beige-600 font-sans">Sin juicios, con empatía</p>
-              </div>
-            </motion.div>
-
-            {/* Estadística flotante */}
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.1, duration: 0.6 }}
-              className="absolute -top-4 -right-4 md:-right-6 bg-sage-500 rounded-2xl shadow-xl p-4 text-warm-white"
-            >
-              <p className="font-display text-2xl font-semibold">+200</p>
-              <p className="text-xs font-sans opacity-90">pacientes acompañados</p>
+              <Sparkles size={20} className="text-terracota-400" />
             </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
+      {/* Marquee de especialidades — se mueve con el scroll */}
+      <div
+        ref={marqueeRef}
+        className="relative border-t border-white/10 bg-sage-900 py-5 overflow-hidden"
       >
-        <span className="text-xs font-sans text-sage-500 uppercase tracking-widest">Explorar</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-          className="w-px h-10 bg-gradient-to-b from-sage-400 to-transparent"
-        />
-      </motion.div>
+        <motion.div style={{ x }} className="flex w-max">
+          {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, i) => (
+            <span
+              key={i}
+              className="flex items-center gap-4 px-6 font-display font-semibold text-lg md:text-xl text-warm-white/80 whitespace-nowrap"
+            >
+              {item}
+              <span className="w-1.5 h-1.5 rounded-full bg-terracota-400" />
+            </span>
+          ))}
+        </motion.div>
+      </div>
+
+      {/* Franja de features */}
+      <div className="relative bg-warm-white">
+        <div className="container-wide grid grid-cols-2 md:grid-cols-4">
+          {features.map((f, i) => {
+            const mobileRight = i % 2 === 0;
+            const mobileBottom = i < 2;
+            const desktopRight = i < features.length - 1;
+            return (
+              <div
+                key={f.label}
+                className={[
+                  "flex items-center gap-3 px-6 md:px-8 py-6 border-beige-200",
+                  mobileRight ? "border-r" : "",
+                  mobileBottom ? "border-b" : "border-b-0",
+                  "md:border-b-0",
+                  desktopRight ? "md:border-r" : "md:border-r-0",
+                ].join(" ")}
+              >
+                <f.Icon size={18} className="text-terracota-500 flex-shrink-0" />
+                <span className="font-sans text-sm font-medium text-sage-800">{f.label}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

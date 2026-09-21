@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowLeft,
+  ArrowUpRight,
   Lock,
   Database,
   UserCheck,
@@ -18,6 +19,8 @@ import {
   Cookie,
   Phone,
 } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
+import Underline from "@/components/Underline";
 
 export const metadata: Metadata = {
   title: "Aviso de Privacidad | Dra. Sofía Ramírez — Psicóloga",
@@ -121,40 +124,45 @@ const thirdParties = [
   },
 ];
 
+function SectionHeader({ index, title }: { index: string; title: string }) {
+  return (
+    <div className="flex items-baseline gap-4 mb-6 border-b border-beige-200 pb-4">
+      <span className="font-display text-lg text-terracota-500 flex-shrink-0">{index}</span>
+      <h2 className="font-display text-2xl md:text-3xl text-sage-900">{title}</h2>
+    </div>
+  );
+}
+
 export default function AvisoDePrivacidad() {
   return (
     <div className="min-h-screen bg-warm-white">
       {/* Header */}
-      <header className="bg-sage-900 text-warm-white">
-        <div className="max-w-4xl mx-auto px-6 py-8">
+      <header className="bg-sage-900 text-warm-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-white/5 translate-x-1/3 -translate-y-1/3 blur-3xl" />
+        <div className="max-w-4xl mx-auto px-6 py-16 md:py-20 relative">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-warm-white/70 hover:text-warm-white transition-colors mb-8 group"
+            className="flex items-center gap-2 text-sm text-warm-white/60 hover:text-warm-white transition-colors mb-10 group w-fit"
           >
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Volver al inicio
           </Link>
 
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-sage-700 flex items-center justify-center flex-shrink-0 mt-1">
-              <Lock size={22} className="text-warm-white" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-sage-400 font-sans mb-2">
-                Dra. Sofía Ramírez · Psicóloga Clínica
-              </p>
-              <h1 className="font-display text-3xl md:text-4xl font-medium mb-3">
-                Aviso de Privacidad
-              </h1>
-              <p className="font-sans text-warm-white/70 max-w-2xl leading-relaxed">
-                Conforme a la Ley Federal de Protección de Datos Personales en Posesión de
-                los Particulares (LFPDPPP) y su Reglamento, te informamos cómo recopilamos,
-                usamos y protegemos tus datos personales.
-              </p>
-            </div>
-          </div>
+          <span className="block text-xs font-sans uppercase tracking-[0.25em] text-terracota-300 mb-4">
+            Aviso legal
+          </span>
+          <h1 className="font-display text-4xl md:text-6xl leading-[0.95] mb-5">
+            Aviso de
+            <br />
+            <Underline color="text-terracota-400">Privacidad</Underline>
+          </h1>
+          <p className="font-sans text-warm-white/70 max-w-xl leading-relaxed">
+            Conforme a la Ley Federal de Protección de Datos Personales en Posesión de
+            los Particulares (LFPDPPP) y su Reglamento, te informamos cómo recopilamos,
+            usamos y protegemos tus datos personales.
+          </p>
 
-          <div className="flex flex-wrap gap-4 mt-8 text-xs font-sans text-warm-white/60">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-10 text-xs font-sans text-warm-white/50 border-t border-white/10 pt-6">
             <span className="flex items-center gap-1.5">
               <CheckCircle size={12} />
               Conforme a LFPDPPP
@@ -172,20 +180,11 @@ export default function AvisoDePrivacidad() {
       </header>
 
       {/* Contenido */}
-      <main className="max-w-4xl mx-auto px-6 py-16 space-y-14">
-
+      <main className="max-w-4xl mx-auto px-6 py-16 md:py-20 space-y-16">
         {/* 1. Identidad del responsable */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-terracota-100 flex items-center justify-center">
-              <UserCheck size={16} className="text-terracota-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              1. Identidad del Responsable
-            </h2>
-          </div>
-
-          <div className="rounded-3xl bg-beige-50 border border-beige-200 overflow-hidden">
+        <FadeIn as="section">
+          <SectionHeader index="01" title="Identidad del Responsable" />
+          <div className="rounded-[1.5rem] bg-beige-50 border border-beige-200 overflow-hidden">
             <table className="w-full text-sm font-sans">
               <tbody className="divide-y divide-beige-200">
                 {[
@@ -205,18 +204,11 @@ export default function AvisoDePrivacidad() {
               </tbody>
             </table>
           </div>
-        </section>
+        </FadeIn>
 
         {/* 2. Datos personales */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-sage-100 flex items-center justify-center">
-              <Database size={16} className="text-sage-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              2. Datos Personales que Recabamos
-            </h2>
-          </div>
+        <FadeIn as="section">
+          <SectionHeader index="02" title="Datos Personales que Recabamos" />
           <p className="font-sans text-sage-600 leading-relaxed mb-6">
             Únicamente recabamos los datos necesarios para prestar el servicio terapéutico.
             Los datos clínicos y psicológicos son considerados datos sensibles conforme al
@@ -226,7 +218,7 @@ export default function AvisoDePrivacidad() {
             {dataCategories.map((cat) => (
               <div
                 key={cat.title}
-                className="rounded-2xl bg-warm-white border border-beige-200 p-5 hover:border-sage-300 transition-colors"
+                className="rounded-[1.5rem] bg-warm-white border border-beige-200 p-5 hover:border-sage-300 transition-colors"
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-9 h-9 rounded-xl bg-sage-100 flex items-center justify-center">
@@ -245,21 +237,13 @@ export default function AvisoDePrivacidad() {
               </div>
             ))}
           </div>
-        </section>
+        </FadeIn>
 
         {/* 3. Finalidades */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-terracota-100 flex items-center justify-center">
-              <FileText size={16} className="text-terracota-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              3. Finalidades del Tratamiento
-            </h2>
-          </div>
-
+        <FadeIn as="section">
+          <SectionHeader index="03" title="Finalidades del Tratamiento" />
           <div className="space-y-4">
-            <div className="rounded-2xl bg-sage-50 border border-sage-200 p-6">
+            <div className="rounded-[1.5rem] bg-sage-50 border border-sage-200 p-6">
               <h3 className="font-sans font-semibold text-sage-800 mb-3 flex items-center gap-2">
                 <CheckCircle size={16} className="text-sage-500" />
                 Finalidades primarias (necesarias para el servicio)
@@ -280,7 +264,7 @@ export default function AvisoDePrivacidad() {
               </ul>
             </div>
 
-            <div className="rounded-2xl bg-beige-50 border border-beige-200 p-6">
+            <div className="rounded-[1.5rem] bg-beige-50 border border-beige-200 p-6">
               <h3 className="font-sans font-semibold text-sage-800 mb-3 flex items-center gap-2">
                 <AlertCircle size={16} className="text-beige-600" />
                 Finalidades secundarias (puedes oponerte)
@@ -303,18 +287,11 @@ export default function AvisoDePrivacidad() {
               </p>
             </div>
           </div>
-        </section>
+        </FadeIn>
 
         {/* 4. Transferencias */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-sage-100 flex items-center justify-center">
-              <Server size={16} className="text-sage-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              4. Transferencia a Terceros
-            </h2>
-          </div>
+        <FadeIn as="section">
+          <SectionHeader index="04" title="Transferencia a Terceros" />
           <p className="font-sans text-sage-600 mb-6 leading-relaxed">
             Tus datos personales no se venden, arriendan ni ceden a terceros sin tu consentimiento,
             salvo los casos previstos en la Ley. Utilizamos los siguientes proveedores de
@@ -324,7 +301,7 @@ export default function AvisoDePrivacidad() {
             {thirdParties.map((tp) => (
               <div
                 key={tp.name}
-                className="rounded-2xl bg-warm-white border border-beige-200 p-5 grid sm:grid-cols-3 gap-3 hover:border-sage-300 transition-colors"
+                className="rounded-[1.5rem] bg-warm-white border border-beige-200 p-5 grid sm:grid-cols-3 gap-3 hover:border-sage-300 transition-colors"
               >
                 <div>
                   <p className="text-xs text-sage-400 font-sans uppercase tracking-wide mb-1">Proveedor</p>
@@ -342,7 +319,7 @@ export default function AvisoDePrivacidad() {
             ))}
           </div>
 
-          <div className="mt-5 p-5 rounded-2xl bg-terracota-50 border border-terracota-200">
+          <div className="mt-5 p-5 rounded-[1.5rem] bg-terracota-50 border border-terracota-200">
             <p className="text-sm font-sans text-sage-700 flex gap-3 items-start">
               <AlertCircle size={16} className="text-terracota-500 flex-shrink-0 mt-0.5" />
               <span>
@@ -353,64 +330,48 @@ export default function AvisoDePrivacidad() {
               </span>
             </p>
           </div>
-        </section>
+        </FadeIn>
 
         {/* 5. Derechos ARCOPL */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-terracota-100 flex items-center justify-center">
-              <Shield size={16} className="text-terracota-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              5. Tus Derechos (ARCOPL)
-            </h2>
-          </div>
+        <FadeIn as="section">
+          <SectionHeader index="05" title="Tus Derechos (ARCOPL)" />
           <p className="font-sans text-sage-600 mb-6 leading-relaxed">
             Tienes derecho a Acceder, Rectificar, Cancelar y Oponerte al tratamiento de tus
             datos personales, así como a la Portabilidad y Limitación del mismo. Para
             ejercerlos, envía una solicitud a <strong>privacidad@psicologamonterrey.mx</strong>
-            con el asunto &quot;Ejercicio de derechos ARCOPL&quot; e incluye una copia de tu
+            {" "}con el asunto &quot;Ejercicio de derechos ARCOPL&quot; e incluye una copia de tu
             identificación oficial.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {rights.map((r) => (
               <div
                 key={r.letter}
-                className="rounded-2xl bg-warm-white border border-beige-200 p-5 hover:border-sage-300 transition-colors"
+                className="rounded-[1.5rem] bg-warm-white border border-beige-200 p-5 hover:border-sage-300 transition-colors"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-9 h-9 rounded-xl bg-sage-100 flex items-center justify-center">
                     <r.icon size={16} className="text-sage-600" />
                   </div>
-                  <div>
-                    <p className="text-xs font-sans font-bold text-sage-800">
-                      {r.letter} — {r.name}
-                    </p>
-                  </div>
+                  <p className="text-xs font-sans font-bold text-sage-800">
+                    {r.letter} — {r.name}
+                  </p>
                 </div>
                 <p className="font-sans text-xs text-sage-600 leading-relaxed">{r.desc}</p>
               </div>
             ))}
           </div>
-          <div className="mt-6 p-5 rounded-2xl bg-sage-50 border border-sage-200">
+          <div className="mt-6 p-5 rounded-[1.5rem] bg-sage-50 border border-sage-200">
             <p className="text-sm font-sans text-sage-700">
               <strong>Plazo de respuesta:</strong> Responderemos a tu solicitud dentro de los
               20 días hábiles siguientes a su recepción, conforme al artículo 32 de la LFPDPPP.
               Si la solicitud es procedente, tendremos 15 días hábiles para hacerla efectiva.
             </p>
           </div>
-        </section>
+        </FadeIn>
 
         {/* 6. Seguridad */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-sage-100 flex items-center justify-center">
-              <Shield size={16} className="text-sage-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              6. Medidas de Seguridad
-            </h2>
-          </div>
+        <FadeIn as="section">
+          <SectionHeader index="06" title="Medidas de Seguridad" />
           <div className="grid sm:grid-cols-2 gap-4">
             {[
               { icon: Lock, title: "Cifrado", desc: "Los expedientes clínicos digitales están cifrados con AES-256. Las sesiones online utilizan cifrado de extremo a extremo." },
@@ -420,7 +381,7 @@ export default function AvisoDePrivacidad() {
             ].map((m) => (
               <div
                 key={m.title}
-                className="rounded-2xl bg-warm-white border border-beige-200 p-5 flex gap-4"
+                className="rounded-[1.5rem] bg-warm-white border border-beige-200 p-5 flex gap-4"
               >
                 <div className="w-9 h-9 rounded-xl bg-sage-100 flex items-center justify-center flex-shrink-0">
                   <m.icon size={16} className="text-sage-600" />
@@ -432,19 +393,12 @@ export default function AvisoDePrivacidad() {
               </div>
             ))}
           </div>
-        </section>
+        </FadeIn>
 
         {/* 7. Cookies */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-beige-100 flex items-center justify-center">
-              <Cookie size={16} className="text-beige-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              7. Uso de Cookies
-            </h2>
-          </div>
-          <div className="rounded-3xl bg-beige-50 border border-beige-200 overflow-hidden">
+        <FadeIn as="section">
+          <SectionHeader index="07" title="Uso de Cookies" />
+          <div className="rounded-[1.5rem] bg-beige-50 border border-beige-200 overflow-hidden">
             <table className="w-full text-sm font-sans">
               <thead>
                 <tr className="bg-beige-100">
@@ -469,18 +423,11 @@ export default function AvisoDePrivacidad() {
               </tbody>
             </table>
           </div>
-        </section>
+        </FadeIn>
 
         {/* 8. Cambios */}
-        <section>
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 rounded-xl bg-terracota-100 flex items-center justify-center">
-              <RefreshCw size={16} className="text-terracota-600" />
-            </div>
-            <h2 className="font-display text-2xl text-sage-900">
-              8. Cambios al Aviso de Privacidad
-            </h2>
-          </div>
+        <FadeIn as="section">
+          <SectionHeader index="08" title="Cambios al Aviso de Privacidad" />
           <p className="font-sans text-sage-700 leading-relaxed">
             Este aviso puede actualizarse periódicamente para reflejar cambios en la ley,
             en los servicios ofrecidos o en las prácticas de manejo de datos. La versión
@@ -488,65 +435,67 @@ export default function AvisoDePrivacidad() {
             sustanciales, se te notificará por correo electrónico con al menos 10 días
             de anticipación.
           </p>
-        </section>
+        </FadeIn>
 
         {/* 9. Contacto DPO */}
-        <section className="rounded-3xl bg-gradient-to-br from-sage-500 to-sage-700 text-warm-white p-8 md:p-10">
-          <div className="flex gap-4 items-start">
-            <div className="w-12 h-12 rounded-2xl bg-sage-600 flex items-center justify-center flex-shrink-0">
-              <Mail size={22} />
-            </div>
-            <div className="flex-1">
-              <h2 className="font-display text-2xl mb-2">¿Tienes preguntas sobre tu privacidad?</h2>
-              <p className="font-sans opacity-85 leading-relaxed mb-6">
-                Para ejercer tus derechos ARCOPL, plantear dudas o presentar una queja relacionada
-                con el tratamiento de tus datos personales, contáctanos:
-              </p>
-              <div className="grid sm:grid-cols-2 gap-4 mb-6">
-                {[
-                  { icon: Mail, label: "Correo", value: "privacidad@psicologamonterrey.mx" },
-                  { icon: Phone, label: "Teléfono", value: "+52 81 1234 5678" },
-                ].map((c) => (
-                  <div key={c.label} className="flex items-center gap-3 bg-warm-white/10 rounded-2xl px-4 py-3">
-                    <c.icon size={16} className="opacity-80 flex-shrink-0" />
-                    <div>
-                      <p className="text-xs opacity-70 font-sans">{c.label}</p>
-                      <p className="text-sm font-medium font-sans">{c.value}</p>
-                    </div>
+        <FadeIn as="section" className="rounded-[2rem] bg-sage-900 text-warm-white p-8 md:p-12 relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-white/5 translate-x-1/4 -translate-y-1/4" />
+          <div className="relative">
+            <h2 className="font-display text-2xl md:text-3xl mb-3">
+              ¿Tienes preguntas sobre tu privacidad?
+            </h2>
+            <p className="font-sans opacity-75 leading-relaxed mb-6 max-w-lg">
+              Para ejercer tus derechos ARCOPL, plantear dudas o presentar una queja relacionada
+              con el tratamiento de tus datos personales, contáctanos:
+            </p>
+            <div className="grid sm:grid-cols-2 gap-4 mb-6 max-w-lg">
+              {[
+                { icon: Mail, label: "Correo", value: "privacidad@psicologamonterrey.mx" },
+                { icon: Phone, label: "Teléfono", value: "+52 81 1234 5678" },
+              ].map((c) => (
+                <div key={c.label} className="flex items-center gap-3 bg-white/10 rounded-2xl px-4 py-3">
+                  <c.icon size={16} className="opacity-80 flex-shrink-0" />
+                  <div>
+                    <p className="text-xs opacity-70 font-sans">{c.label}</p>
+                    <p className="text-sm font-medium font-sans">{c.value}</p>
                   </div>
-                ))}
-              </div>
-              <p className="text-xs opacity-70 font-sans">
-                También puedes presentar una queja ante el{" "}
-                <a
-                  href="https://www.inai.org.mx"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="underline hover:opacity-90"
-                >
-                  Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI)
-                </a>
-              </p>
+                </div>
+              ))}
             </div>
+            <p className="text-xs opacity-60 font-sans">
+              También puedes presentar una queja ante el{" "}
+              <a
+                href="https://www.inai.org.mx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:opacity-90"
+              >
+                Instituto Nacional de Transparencia, Acceso a la Información y Protección de Datos Personales (INAI)
+              </a>
+            </p>
           </div>
-        </section>
+        </FadeIn>
 
         {/* Navegación inferior */}
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm font-sans">
+        <FadeIn
+          as="div"
+          className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-4 border-t border-beige-200 text-sm font-sans"
+        >
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sage-600 hover:text-sage-800 transition-colors"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-sage-300 hover:border-sage-500 text-sage-700 hover:text-sage-900 rounded-full transition-colors"
           >
             <ArrowLeft size={14} />
             Volver al inicio
           </Link>
           <Link
             href="/codigo-de-etica"
-            className="text-sage-600 hover:text-sage-800 transition-colors underline underline-offset-2"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-sage-800 hover:bg-sage-900 text-warm-white rounded-full transition-colors"
           >
-            Ver Código de Ética →
+            Ver Código de Ética
+            <ArrowUpRight size={14} />
           </Link>
-        </div>
+        </FadeIn>
 
         <p className="text-center text-xs font-sans text-sage-400">
           Aviso de Privacidad v2.1 · Última actualización: Abril 2026 · Conforme a LFPDPPP

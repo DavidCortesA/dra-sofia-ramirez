@@ -1,3 +1,4 @@
+import Loader       from "@/components/Loader";
 import Nav          from "@/components/Nav";
 import Hero         from "@/components/Hero";
 import About        from "@/components/About";
@@ -11,6 +12,7 @@ import Footer       from "@/components/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen">
+      <Loader />
       <Nav />
       <Hero />
       <About />

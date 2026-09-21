@@ -1,65 +1,100 @@
 "use client";
 
-import { Instagram, Facebook, Linkedin } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import { fadeUp, viewportOnce } from "@/lib/motion";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
-const links = [
-  { label: "Sobre mí",       href: "#sobre-mi" },
-  { label: "Especialidades", href: "#especialidades" },
-  { label: "Cómo trabajo",   href: "#proceso" },
-  { label: "Testimonios",    href: "#testimonios" },
-  { label: "Preguntas",      href: "#faq" },
-  { label: "Contacto",       href: "#contacto" },
-];
+// lucide-react ya no incluye íconos de marca; se definen como SVG propios.
+function InstagramIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.2" cy="6.8" r="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function FacebookIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}>
+      <path d="M15 8.5h1.5V5.5H15c-2.2 0-4 1.8-4 4v2H9v3h2V21h3v-6.5h2.2l.5-3H14V9.5c0-.55.45-1 1-1Z" />
+    </svg>
+  );
+}
+
+function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="3" />
+      <line x1="7.5" y1="10.5" x2="7.5" y2="16.5" />
+      <circle cx="7.5" cy="7" r="0.9" fill="currentColor" stroke="none" />
+      <path d="M11.5 16.5v-3.5c0-1.4 1-2.2 2.2-2.2 1.2 0 1.8.8 1.8 2.2v3.5" />
+      <line x1="11.5" y1="10.5" x2="11.5" y2="16.5" />
+    </svg>
+  );
+}
 
 export default function Footer() {
-  return (
-    <footer className="bg-sage-900 text-warm-white/80">
-      <div className="container-wide px-6 md:px-8 py-16">
-        <div className="grid md:grid-cols-3 gap-10 mb-12">
+  const { t } = useLanguage();
 
-          {/* Branding */}
-          <div>
-            <div className="mb-4">
-              <p className="font-display text-xl text-warm-white font-medium">
-                Dra. Sofía Ramírez
-              </p>
-              <p className="text-xs uppercase tracking-widest text-warm-white/50 font-sans">
-                Psicóloga Clínica
-              </p>
-            </div>
-            <p className="font-sans text-sm leading-relaxed opacity-70 max-w-xs">
-              Un espacio seguro para sanar, crecer y reconectarte con quien realmente eres.
-              Monterrey y online.
+  return (
+    <footer className="bg-sage-900 text-warm-white/80 relative overflow-hidden">
+      <div className="container-wide px-6 md:px-8 pt-20 pb-10">
+        {/* CTA gigante */}
+        <motion.a
+          href="#contacto"
+          initial="hidden"
+          whileInView="show"
+          viewport={viewportOnce}
+          variants={fadeUp}
+          className="group flex items-center justify-between gap-6 border-b border-white/15 pb-12 mb-14"
+        >
+          <span className="font-display font-bold text-[13vw] md:text-[6vw] leading-none text-warm-white group-hover:text-terracota-300 transition-colors duration-500">
+            {t.footer.ctaBig}
+          </span>
+          <span className="w-16 h-16 md:w-24 md:h-24 rounded-full border border-white/25 flex items-center justify-center flex-shrink-0 group-hover:bg-terracota-400 group-hover:border-terracota-400 transition-all duration-500">
+            <ArrowUpRight size={28} className="group-hover:rotate-45 transition-transform duration-500" />
+          </span>
+        </motion.a>
+
+        <div className="grid md:grid-cols-4 gap-10 mb-16">
+          <div className="md:col-span-2">
+            <p className="font-display font-bold text-2xl text-warm-white mb-2">
+              {t.footer.brandName}
             </p>
-            <div className="flex gap-3 mt-6">
+            <p className="font-sans text-sm leading-relaxed opacity-60 max-w-xs mb-6">
+              {t.footer.brandDesc}
+            </p>
+            <div className="flex gap-3">
               {[
-                { label: "Instagram", Icon: Instagram },
-                { label: "Facebook",  Icon: Facebook  },
-                { label: "LinkedIn",  Icon: Linkedin  },
+                { label: "Instagram", Icon: InstagramIcon },
+                { label: "Facebook", Icon: FacebookIcon },
+                { label: "LinkedIn", Icon: LinkedinIcon },
               ].map(({ label, Icon }) => (
                 <a
                   key={label}
                   href="#"
-                  className="w-9 h-9 rounded-full bg-warm-white/10 hover:bg-warm-white/20 flex items-center justify-center transition-colors"
+                  className="w-10 h-10 rounded-full bg-white/5 hover:bg-white/15 flex items-center justify-center transition-colors"
                   aria-label={label}
                 >
-                  <Icon size={16} />
+                  <Icon width={16} height={16} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Navegación */}
           <div>
-            <p className="font-sans text-xs uppercase tracking-widest text-warm-white/50 mb-4">
-              Navegación
+            <p className="font-sans text-xs uppercase tracking-[0.2em] text-white/40 mb-4">
+              {t.footer.navTitle}
             </p>
-            <nav className="grid grid-cols-2 gap-2">
-              {links.map((link) => (
+            <nav className="flex flex-col gap-2">
+              {t.footer.navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  className="font-sans text-sm hover:text-warm-white transition-colors py-1"
+                  className="font-sans text-sm hover:text-warm-white transition-colors py-0.5 opacity-80"
                 >
                   {link.label}
                 </a>
@@ -67,30 +102,32 @@ export default function Footer() {
             </nav>
           </div>
 
-          {/* Especialidades SEO */}
           <div>
-            <p className="font-sans text-xs uppercase tracking-widest text-warm-white/50 mb-4">
-              Especialidades
+            <p className="font-sans text-xs uppercase tracking-[0.2em] text-white/40 mb-4">
+              {t.footer.specialtiesTitle}
             </p>
             <ul className="space-y-2 text-sm font-sans opacity-70">
-              <li>Psicólogo Monterrey</li>
-              <li>Terapia para ansiedad</li>
-              <li>Terapeuta online</li>
-              <li>Terapia para trauma (EMDR)</li>
-              <li>Terapia de pareja</li>
-              <li>Psicólogo cerca de mí</li>
+              {t.footer.specialtiesList.map((s) => (
+                <li key={s}>{s}</li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-warm-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans opacity-50">
+        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-sans opacity-50">
           <p>
-            © {new Date().getFullYear()} Dra. Sofía Ramírez · Todos los derechos reservados
+            © {new Date().getFullYear()} {t.footer.brandName} · {t.footer.rights}
           </p>
           <div className="flex gap-6">
-            <a href="/aviso-de-privacidad" className="hover:opacity-80 transition-opacity">Aviso de privacidad</a>
-            <a href="/codigo-de-etica" className="hover:opacity-80 transition-opacity">Código de ética</a>
+            <a href="/aviso-de-privacidad" className="hover:opacity-80 transition-opacity">
+              {t.footer.privacyLink}
+            </a>
+            <a href="/codigo-de-etica" className="hover:opacity-80 transition-opacity">
+              {t.footer.ethicsLink}
+            </a>
+            <a href="/terminos-y-condiciones" className="hover:opacity-80 transition-opacity">
+              {t.footer.termsLink}
+            </a>
           </div>
         </div>
       </div>

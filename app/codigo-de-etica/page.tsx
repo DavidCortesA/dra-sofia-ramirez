@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   ArrowLeft,
+  ArrowUpRight,
   ShieldCheck,
   Lock,
   Users,
@@ -17,6 +18,8 @@ import {
   Globe,
   Handshake,
 } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
+import Underline from "@/components/Underline";
 
 export const metadata: Metadata = {
   title: "Código de Ética | Dra. Sofía Ramírez — Psicóloga",
@@ -28,7 +31,6 @@ export const metadata: Metadata = {
 const principles = [
   {
     icon: Heart,
-    color: "bg-terracota-50 text-terracota-600 border-terracota-200",
     title: "Beneficencia y no maleficencia",
     subtitle: "Primero, no dañar",
     content: [
@@ -40,7 +42,6 @@ const principles = [
   },
   {
     icon: Users,
-    color: "bg-sage-50 text-sage-700 border-sage-200",
     title: "Autonomía y respeto",
     subtitle: "Tu proceso, tu decisión",
     content: [
@@ -52,7 +53,6 @@ const principles = [
   },
   {
     icon: Lock,
-    color: "bg-beige-50 text-beige-700 border-beige-200",
     title: "Confidencialidad",
     subtitle: "Lo que se habla aquí, aquí se queda",
     content: [
@@ -64,7 +64,6 @@ const principles = [
   },
   {
     icon: Scale,
-    color: "bg-sage-50 text-sage-600 border-sage-200",
     title: "Justicia e igualdad",
     subtitle: "Terapia accesible y sin discriminación",
     content: [
@@ -75,7 +74,6 @@ const principles = [
   },
   {
     icon: ShieldCheck,
-    color: "bg-terracota-50 text-terracota-600 border-terracota-200",
     title: "Responsabilidad profesional",
     subtitle: "Competencia y actualización continua",
     content: [
@@ -87,7 +85,6 @@ const principles = [
   },
   {
     icon: Ban,
-    color: "bg-beige-50 text-beige-700 border-beige-200",
     title: "Límites y relaciones duales",
     subtitle: "Claridad en el vínculo terapéutico",
     content: [
@@ -99,7 +96,6 @@ const principles = [
   },
   {
     icon: GraduationCap,
-    color: "bg-sage-50 text-sage-700 border-sage-200",
     title: "Integridad y honestidad",
     subtitle: "Transparencia en cada paso",
     content: [
@@ -111,7 +107,6 @@ const principles = [
   },
   {
     icon: Eye,
-    color: "bg-terracota-50 text-terracota-600 border-terracota-200",
     title: "Uso ético de la tecnología",
     subtitle: "Terapia online con los mismos estándares",
     content: [
@@ -135,36 +130,32 @@ export default function CodigoDeEtica() {
   return (
     <div className="min-h-screen bg-warm-white">
       {/* Header */}
-      <header className="bg-sage-900 text-warm-white">
-        <div className="max-w-4xl mx-auto px-6 py-8">
+      <header className="bg-sage-900 text-warm-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-white/5 translate-x-1/3 -translate-y-1/3 blur-3xl" />
+        <div className="max-w-4xl mx-auto px-6 py-16 md:py-20 relative">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-warm-white/70 hover:text-warm-white transition-colors mb-8 group"
+            className="flex items-center gap-2 text-sm text-warm-white/60 hover:text-warm-white transition-colors mb-10 group w-fit"
           >
             <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
             Volver al inicio
           </Link>
 
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 rounded-2xl bg-sage-700 flex items-center justify-center flex-shrink-0 mt-1">
-              <BookOpen size={22} className="text-warm-white" />
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-widest text-sage-400 font-sans mb-2">
-                Dra. Sofía Ramírez · Psicóloga Clínica
-              </p>
-              <h1 className="font-display text-3xl md:text-4xl font-medium mb-3">
-                Código de Ética Profesional
-              </h1>
-              <p className="font-sans text-warm-white/70 max-w-2xl leading-relaxed">
-                La práctica psicológica responsable se fundamenta en principios éticos claros.
-                Este documento describe los valores y compromisos que guían cada sesión,
-                cada decisión y cada acción profesional.
-              </p>
-            </div>
-          </div>
+          <span className="block text-xs font-sans uppercase tracking-[0.25em] text-terracota-300 mb-4">
+            Aviso legal
+          </span>
+          <h1 className="font-display text-4xl md:text-6xl leading-[0.95] mb-5">
+            Código de
+            <br />
+            <Underline color="text-terracota-400">Ética Profesional</Underline>
+          </h1>
+          <p className="font-sans text-warm-white/70 max-w-xl leading-relaxed">
+            La práctica psicológica responsable se fundamenta en principios éticos claros.
+            Este documento describe los valores y compromisos que guían cada sesión,
+            cada decisión y cada acción profesional.
+          </p>
 
-          <div className="flex flex-wrap gap-4 mt-8 text-xs font-sans text-warm-white/60">
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mt-10 text-xs font-sans text-warm-white/50 border-t border-white/10 pt-6">
             <span className="flex items-center gap-1.5">
               <CheckCircle size={12} />
               Basado en el Código Ético del Psicólogo SMP
@@ -182,126 +173,123 @@ export default function CodigoDeEtica() {
       </header>
 
       {/* Contenido */}
-      <main className="max-w-4xl mx-auto px-6 py-16">
-
+      <main className="max-w-4xl mx-auto px-6 py-16 md:py-20">
         {/* Introducción */}
-        <section className="mb-16 p-8 rounded-3xl bg-beige-50 border border-beige-200">
-          <div className="flex gap-4 items-start">
-            <div className="w-10 h-10 rounded-xl bg-terracota-100 flex items-center justify-center flex-shrink-0">
-              <MessageSquare size={18} className="text-terracota-600" />
-            </div>
-            <div>
-              <h2 className="font-display text-xl text-sage-800 mb-3">Carta de compromiso</h2>
-              <p className="font-sans text-sage-700 leading-relaxed mb-3">
-                Como psicóloga clínica, mi mayor responsabilidad es hacia las personas que
-                confían en mí su bienestar emocional. Este Código de Ética no es un documento
-                de cumplimiento formal: es el reflejo de los valores que considero
-                irrenunciables en la práctica clínica.
-              </p>
-              <p className="font-sans text-sage-700 leading-relaxed">
-                Cada principio aquí descrito se aplica en cada sesión, independientemente del
-                contexto, el consultante o la modalidad de atención. Si en algún momento
-                consideras que alguno de estos principios no se ha respetado, tienes el derecho
-                —y te invito— a comunicármelo directamente.
-              </p>
-              <p className="font-sans font-medium text-sage-800 mt-4">
-                — Dra. Sofía Ramírez, Psicóloga Clínica
-              </p>
-            </div>
-          </div>
-        </section>
+        <FadeIn as="section" className="mb-20 p-8 md:p-10 rounded-[1.5rem] bg-beige-50 border border-beige-200">
+          <span className="inline-block text-xs font-sans uppercase tracking-[0.25em] text-terracota-500 mb-4">
+            Carta de compromiso
+          </span>
+          <blockquote className="font-display font-semibold text-xl md:text-2xl text-sage-800 leading-relaxed mb-5">
+            &ldquo;Como psicóloga clínica, mi mayor responsabilidad es hacia las personas que
+            confían en mí su bienestar emocional. Este Código de Ética no es un documento
+            de cumplimiento formal: es el reflejo de los valores que considero
+            irrenunciables en la práctica clínica.&rdquo;
+          </blockquote>
+          <p className="font-sans text-sage-700 leading-relaxed mb-4">
+            Cada principio aquí descrito se aplica en cada sesión, independientemente del
+            contexto, el consultante o la modalidad de atención. Si en algún momento
+            consideras que alguno de estos principios no se ha respetado, tienes el derecho
+            —y te invito— a comunicármelo directamente.
+          </p>
+          <p className="font-sans font-medium text-sage-800">
+            — Dra. Sofía Ramírez, Psicóloga Clínica
+          </p>
+        </FadeIn>
 
         {/* Principios */}
-        <section className="space-y-8 mb-16">
-          <h2 className="font-display text-2xl md:text-3xl text-sage-900 mb-8">
-            Principios éticos fundamentales
-          </h2>
+        <section className="mb-20">
+          <FadeIn as="div" className="flex items-baseline gap-4 mb-10 border-b border-beige-200 pb-4">
+            <h2 className="font-display text-3xl md:text-4xl text-sage-900">
+              Principios éticos <Underline>fundamentales</Underline>
+            </h2>
+          </FadeIn>
 
-          {principles.map((p, i) => (
-            <div
-              key={i}
-              className="rounded-3xl border bg-warm-white overflow-hidden shadow-sm hover:shadow-md transition-shadow"
-            >
-              {/* Header de tarjeta */}
-              <div className={`flex items-center gap-4 p-6 border-b ${p.color.split(" ").slice(2).join(" ")} bg-opacity-30`}>
-                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center border ${p.color}`}>
-                  <p.icon size={20} />
+          <div className="flex flex-col">
+            {principles.map((p, i) => (
+              <FadeIn
+                key={p.title}
+                as="div"
+                delay={Math.min(i * 0.04, 0.2)}
+                className="grid md:grid-cols-12 gap-6 md:gap-10 py-8 border-b border-beige-200 last:border-none"
+              >
+                <div className="md:col-span-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="font-display text-3xl text-beige-300 tabular-nums">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p.icon size={18} className="text-terracota-500" />
+                  </div>
+                  <h3 className="font-display text-2xl text-sage-900 leading-tight">{p.title}</h3>
+                  <p className="font-sans text-sm text-sage-500 mt-1">{p.subtitle}</p>
                 </div>
-                <div>
-                  <h3 className="font-display text-xl text-sage-800">{p.title}</h3>
-                  <p className="font-sans text-sm text-sage-500 italic">{p.subtitle}</p>
-                </div>
-                <span className="ml-auto font-display text-3xl text-sage-200 font-light leading-none">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-              </div>
 
-              {/* Lista de compromisos */}
-              <ul className="p-6 space-y-3">
-                {p.content.map((item, j) => (
-                  <li key={j} className="flex gap-3 items-start">
-                    <CheckCircle size={15} className="text-sage-400 flex-shrink-0 mt-0.5" />
-                    <p className="font-sans text-sm text-sage-700 leading-relaxed">{item}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+                <ul className="md:col-span-8 space-y-3">
+                  {p.content.map((item, j) => (
+                    <li key={j} className="flex gap-3 items-start">
+                      <CheckCircle size={15} className="text-sage-400 flex-shrink-0 mt-0.5" />
+                      <p className="font-sans text-sm text-sage-700 leading-relaxed">{item}</p>
+                    </li>
+                  ))}
+                </ul>
+              </FadeIn>
+            ))}
+          </div>
         </section>
 
         {/* Procedimiento de queja */}
-        <section className="mb-16 rounded-3xl bg-sage-50 border border-sage-200 p-8">
-          <div className="flex gap-4 items-start">
-            <div className="w-10 h-10 rounded-xl bg-sage-200 flex items-center justify-center flex-shrink-0">
-              <AlertCircle size={18} className="text-sage-700" />
-            </div>
-            <div>
-              <h2 className="font-display text-2xl text-sage-800 mb-4">
-                ¿Cómo reportar una falta ética?
-              </h2>
-              <p className="font-sans text-sage-700 leading-relaxed mb-4">
-                Si consideras que alguno de estos principios ha sido vulnerado, tienes derecho a
-                presentar una queja. El proceso es el siguiente:
-              </p>
-              <ol className="space-y-3 mb-6">
-                {[
-                  "Comunícate directamente conmigo a través del formulario de contacto o por correo electrónico para buscar una resolución directa.",
-                  "Si la situación no se resuelve satisfactoriamente, puedes presentar una queja formal ante el Consejo Nacional para la Enseñanza e Investigación en Psicología (CNEIP).",
-                  "También puedes acudir a la Comisión Nacional de Derechos Humanos (CNDH) si consideras que se han vulnerado tus derechos fundamentales.",
-                ].map((step, i) => (
-                  <li key={i} className="flex gap-3 items-start">
-                    <span className="w-6 h-6 rounded-full bg-sage-500 text-warm-white text-xs font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
-                      {i + 1}
-                    </span>
-                    <p className="font-sans text-sm text-sage-700 leading-relaxed">{step}</p>
-                  </li>
-                ))}
-              </ol>
-              <div className="flex flex-wrap gap-4 text-sm">
-                <a
-                  href="#contacto"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-sage-500 hover:bg-sage-600 text-warm-white rounded-full transition-colors font-medium font-sans"
-                >
-                  <MessageSquare size={14} />
-                  Contactar directamente
-                </a>
-                <a
-                  href="https://www.cneip.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 border border-sage-300 hover:border-sage-400 text-sage-700 rounded-full transition-colors font-medium font-sans"
-                >
-                  <Globe size={14} />
-                  Sitio CNEIP
-                </a>
-              </div>
-            </div>
+        <FadeIn as="section" className="mb-20 rounded-[1.5rem] bg-sage-50 border border-sage-200 p-8 md:p-10">
+          <span className="inline-block text-xs font-sans uppercase tracking-[0.25em] text-terracota-500 mb-4">
+            Procedimiento
+          </span>
+          <h2 className="font-display text-2xl md:text-3xl text-sage-900 mb-5">
+            ¿Cómo reportar una falta ética?
+          </h2>
+          <p className="font-sans text-sage-700 leading-relaxed mb-5">
+            Si consideras que alguno de estos principios ha sido vulnerado, tienes derecho a
+            presentar una queja. El proceso es el siguiente:
+          </p>
+          <ol className="space-y-3 mb-7">
+            {[
+              "Comunícate directamente conmigo a través del formulario de contacto o por correo electrónico para buscar una resolución directa.",
+              "Si la situación no se resuelve satisfactoriamente, puedes presentar una queja formal ante el Consejo Nacional para la Enseñanza e Investigación en Psicología (CNEIP).",
+              "También puedes acudir a la Comisión Nacional de Derechos Humanos (CNDH) si consideras que se han vulnerado tus derechos fundamentales.",
+            ].map((step, i) => (
+              <li key={i} className="flex gap-3 items-start">
+                <span className="w-6 h-6 rounded-full bg-sage-800 text-warm-white text-xs font-medium flex items-center justify-center flex-shrink-0 mt-0.5">
+                  {i + 1}
+                </span>
+                <p className="font-sans text-sm text-sage-700 leading-relaxed">{step}</p>
+              </li>
+            ))}
+          </ol>
+          <div className="flex flex-wrap gap-4 text-sm">
+            <a
+              href="/#contacto"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-sage-800 hover:bg-sage-900 text-warm-white rounded-full transition-colors font-medium font-sans"
+            >
+              <MessageSquare size={14} />
+              Contactar directamente
+            </a>
+            <a
+              href="https://www.cneip.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 border border-sage-300 hover:border-sage-400 text-sage-700 rounded-full transition-colors font-medium font-sans"
+            >
+              <Globe size={14} />
+              Sitio CNEIP
+            </a>
           </div>
-        </section>
+        </FadeIn>
 
-        {/* Acuerdos internacionales */}
-        <section className="mb-16">
-          <h2 className="font-display text-2xl text-sage-900 mb-6">Marco normativo de referencia</h2>
+        {/* Marco normativo */}
+        <FadeIn as="section" className="mb-20">
+          <span className="inline-block text-xs font-sans uppercase tracking-[0.25em] text-terracota-500 mb-4">
+            Referencias
+          </span>
+          <h2 className="font-display text-2xl md:text-3xl text-sage-900 mb-6 border-b border-beige-200 pb-4">
+            Marco normativo de referencia
+          </h2>
           <div className="grid gap-3">
             {references.map((ref, i) => (
               <div
@@ -313,36 +301,53 @@ export default function CodigoDeEtica() {
               </div>
             ))}
           </div>
-        </section>
+        </FadeIn>
 
         {/* Compromiso final */}
-        <section className="rounded-3xl bg-gradient-to-br from-sage-500 to-sage-700 text-warm-white p-8 md:p-10 text-center">
-          <Handshake size={32} className="mx-auto mb-4 opacity-80" />
-          <h2 className="font-display text-2xl md:text-3xl mb-3">Un compromiso que se renueva cada sesión</h2>
-          <p className="font-sans opacity-85 max-w-xl mx-auto leading-relaxed mb-6">
+        <FadeIn
+          as="section"
+          className="rounded-[2rem] bg-sage-900 text-warm-white p-10 md:p-14 text-center relative overflow-hidden"
+        >
+          <div className="absolute top-0 left-1/2 w-80 h-80 -translate-x-1/2 -translate-y-1/3 rounded-full bg-white/5 blur-3xl" />
+          <Handshake size={30} className="mx-auto mb-5 opacity-80 relative" />
+          <h2 className="font-display text-2xl md:text-4xl mb-4 relative">
+            Un compromiso que se renueva cada sesión
+          </h2>
+          <p className="font-sans opacity-75 max-w-xl mx-auto leading-relaxed mb-8 relative">
             La ética no es un destino sino una práctica continua. Me comprometo a
             reflexionar, aprender y mejorar constantemente para estar a la altura
             de la confianza que depositas en este proceso.
           </p>
           <Link
             href="/"
-            className="inline-flex items-center gap-2 px-7 py-3 bg-warm-white text-sage-700 hover:bg-warm-cream font-medium rounded-full transition-colors text-sm"
+            className="relative inline-flex items-center gap-2 px-7 py-3.5 bg-warm-white text-sage-800 hover:bg-warm-cream font-medium rounded-full transition-colors text-sm"
           >
             <ArrowLeft size={14} />
             Volver al inicio
           </Link>
-        </section>
+        </FadeIn>
 
-        {/* Meta info */}
-        <div className="mt-10 text-center text-xs font-sans text-sage-400 space-y-1">
-          <p>Versión 2.0 — Última actualización: Abril 2026</p>
-          <p>
-            Documento complementado con el{" "}
-            <Link href="/aviso-de-privacidad" className="underline hover:text-sage-600 transition-colors">
-              Aviso de Privacidad
-            </Link>
-          </p>
+        {/* Navegación inferior */}
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-14 pt-6 border-t border-beige-200 text-sm font-sans">
+          <Link
+            href="/aviso-de-privacidad"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-sage-300 hover:border-sage-500 text-sage-700 hover:text-sage-900 rounded-full transition-colors"
+          >
+            <ArrowLeft size={14} />
+            Ver Aviso de Privacidad
+          </Link>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-sage-800 hover:bg-sage-900 text-warm-white rounded-full transition-colors"
+          >
+            Volver al inicio
+            <ArrowUpRight size={14} />
+          </Link>
         </div>
+
+        <p className="text-center text-xs font-sans text-sage-400 mt-10">
+          Versión 2.0 · Última actualización: Abril 2026
+        </p>
       </main>
     </div>
   );

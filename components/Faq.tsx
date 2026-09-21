@@ -1,40 +1,33 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useInView } from "framer-motion";
 import { useRef, useState } from "react";
+import { useInView } from "framer-motion";
 import { Plus, Minus } from "lucide-react";
+import { fadeUp, viewportOnce, EASE } from "@/lib/motion";
+import Underline from "@/components/Underline";
+import { useLanguage } from "@/lib/i18n/LanguageProvider";
 
-const faqs = [
-  {
-    q: "¿Cómo sé si la terapia es para mí?",
-    a: "Si sientes que algo en tu vida no está funcionando —ya sea en tus emociones, relaciones, trabajo o simplemente en cómo te sientes contigo mismo— la terapia puede ayudarte. No necesitas estar \"en crisis\" para buscar apoyo. La terapia también es para personas que simplemente quieren crecer, conocerse mejor y vivir con más plenitud.",
-  },
-  {
-    q: "¿Cuánto dura una sesión y cada cuándo son?",
-    a: "Las sesiones individuales duran 50 minutos. Normalmente empezamos con una frecuencia semanal, que puede ir ajustándose a quincenal según tu proceso. La constancia es importante, especialmente al inicio, porque permite que el trabajo terapéutico tenga continuidad y profundidad.",
-  },
-  {
-    q: "¿Atiendes de forma online?",
-    a: "Sí, ofrezco sesiones tanto presenciales (en mi consultorio en Monterrey) como online vía videollamada. Las sesiones online funcionan muy bien y son igual de efectivas. Solo necesitas un espacio privado, buena conexión a internet y ganas de trabajar.",
-  },
-  {
-    q: "¿Qué pasa en la primera sesión?",
-    a: "La primera sesión es una conversación para conocernos. Te haré algunas preguntas sobre lo que te trae a terapia, tu historia y lo que esperas de este proceso. También es un espacio para que tú me preguntes lo que necesites. Al final evaluamos si somos un buen match y cómo podría verse nuestro trabajo juntos.",
-  },
-  {
-    q: "¿Cuánto cuesta una sesión?",
-    a: "El costo de la sesión lo compartimos directamente al agendar la llamada gratuita, ya que puede variar según la modalidad (individual, pareja, EMDR) y la frecuencia. No quiero que el costo sea una barrera: hablemos y encontramos algo que funcione para ambas.",
-  },
-  {
-    q: "¿Cómo agendo mi primera cita?",
-    a: "Es muy sencillo: puedes llenar el formulario de contacto en esta página, escribirme por WhatsApp o usar el botón de agendar que te llevará directamente a mi calendario. Te respondo en menos de 24 horas para confirmar o coordinar el mejor horario para ti.",
-  },
-  {
-    q: "¿La información que comparto es confidencial?",
-    a: "Absolutamente. Todo lo que hablamos en sesión es estrictamente confidencial, como lo establece el código de ética de la psicología. Las únicas excepciones son situaciones de riesgo grave para ti o para otros, en cuyo caso lo abordaríamos juntos primero.",
-  },
-];
+function DotMark() {
+  const cols = 8;
+  const rows = 5;
+  return (
+    <svg viewBox="0 0 200 120" className="w-full h-full">
+      <rect x="0" y="0" width="200" height="120" rx="20" className="fill-sage-50" />
+      {Array.from({ length: rows }).map((_, r) =>
+        Array.from({ length: cols }).map((_, c) => (
+          <circle
+            key={`${r}-${c}`}
+            cx={20 + c * 22}
+            cy={20 + r * 20}
+            r={r === 2 && c === 5 ? 5 : 2.5}
+            className={r === 2 && c === 5 ? "fill-terracota-400" : "fill-sage-200"}
+          />
+        ))
+      )}
+    </svg>
+  );
+}
 
 function FaqItem({
   faq,
@@ -49,29 +42,31 @@ function FaqItem({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 16 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.07 }}
+      initial="hidden"
+      whileInView="show"
+      viewport={viewportOnce}
+      variants={fadeUp}
+      transition={{ delay: index * 0.05 }}
       className="border-b border-beige-200 last:border-none"
     >
       <button
         onClick={onToggle}
-        className="w-full flex items-start justify-between gap-4 py-5 text-left group"
+        className="w-full flex items-start justify-between gap-4 py-6 text-left group"
         aria-expanded={isOpen}
       >
         <span
-          className={`font-sans font-medium text-base transition-colors duration-200 ${
-            isOpen ? "text-sage-700" : "text-sage-800 group-hover:text-sage-600"
+          className={`font-display text-xl md:text-2xl transition-colors duration-200 ${
+            isOpen ? "text-sage-800" : "text-sage-900 group-hover:text-sage-600"
           }`}
         >
           {faq.q}
         </span>
         <span
-          className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${
-            isOpen ? "bg-sage-500 text-warm-white" : "bg-beige-100 text-sage-500 group-hover:bg-beige-200"
+          className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${
+            isOpen ? "bg-sage-800 text-warm-white" : "bg-beige-100 text-sage-500 group-hover:bg-beige-200"
           }`}
         >
-          {isOpen ? <Minus size={12} /> : <Plus size={12} />}
+          {isOpen ? <Minus size={14} /> : <Plus size={14} />}
         </span>
       </button>
 
@@ -81,10 +76,10 @@ function FaqItem({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            transition={{ duration: 0.35, ease: EASE }}
             className="overflow-hidden"
           >
-            <p className="font-sans text-sage-600 text-sm leading-relaxed pb-5 max-w-2xl">
+            <p className="font-sans text-sage-600 text-sm md:text-base leading-relaxed pb-6 max-w-2xl">
               {faq.a}
             </p>
           </motion.div>
@@ -95,75 +90,53 @@ function FaqItem({
 }
 
 export default function Faq() {
-  const ref      = useRef(null);
-  const inView   = useInView(ref, { once: true, margin: "-60px" });
+  const { t } = useLanguage();
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
   const [open, setOpen] = useState<number | null>(0);
 
   const toggle = (i: number) => setOpen(open === i ? null : i);
 
   return (
     <section id="faq" className="section-padding bg-warm-white relative overflow-hidden">
-      <div className="absolute right-0 top-0 w-80 h-80 rounded-full bg-beige-100/60 translate-x-1/2 -translate-y-1/2 blur-3xl" />
-
       <div className="container-narrow relative" ref={ref}>
-
         <div className="grid md:grid-cols-5 gap-12 md:gap-16">
-
           {/* Columna izquierda — sticky en desktop */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7 }}
+            transition={{ duration: 0.7, ease: EASE }}
             className="md:col-span-2 md:sticky md:top-32 md:self-start"
           >
-            <span className="inline-block text-xs font-sans uppercase tracking-widest text-terracota-500 mb-3">
-              Preguntas frecuentes
+            <span className="inline-block text-xs font-sans uppercase tracking-[0.25em] text-terracota-500 mb-3">
+              {t.faq.eyebrow}
             </span>
-            <h2 className="font-display text-3xl md:text-4xl text-sage-900 mb-4">
-              Tus dudas,
+            <h2 className="font-display text-4xl md:text-5xl text-sage-900 leading-[0.95] mb-4">
+              {t.faq.titleBefore}
               <br />
-              <span className="italic text-sage-600">resueltas</span>
+              <Underline>{t.faq.titleAccent}</Underline>
             </h2>
-            <p className="font-sans text-sage-600 leading-relaxed mb-8">
-              Es normal tener preguntas antes de empezar. Aquí respondo las más comunes.
-              Si la tuya no está, escríbeme.
-            </p>
+            <p className="font-sans text-sage-600 leading-relaxed mb-8">{t.faq.intro}</p>
 
-            {/* CTA lateral */}
-            <div className="bg-sage-50 border border-sage-200 rounded-2xl p-6">
-              <p className="font-display text-lg text-sage-800 mb-2">
-                ¿Tienes una pregunta diferente?
-              </p>
-              <p className="font-sans text-sm text-sage-600 mb-4">
-                Escríbeme directamente. Respondo en 24 horas.
-              </p>
+            <div className="bg-sage-50 border border-sage-200 rounded-2xl p-6 mb-8">
+              <p className="font-display text-lg text-sage-800 mb-2">{t.faq.sideCtaTitle}</p>
+              <p className="font-sans text-sm text-sage-600 mb-4">{t.faq.sideCtaDesc}</p>
               <a
                 href="#contacto"
                 className="inline-flex items-center gap-2 text-sm font-medium text-sage-700 hover:text-terracota-500 transition-colors"
               >
-                Contáctame →
+                {t.faq.sideCtaLink}
               </a>
             </div>
 
-            {/* Imagen decorativa */}
-            <div className="mt-8 relative h-32 rounded-2xl overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=400&q=75"
-                alt="Planta decorativa"
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-sage-800/20" />
+            <div className="h-28 hidden md:block">
+              <DotMark />
             </div>
           </motion.div>
 
           {/* Columna derecha — acordeón */}
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="md:col-span-3"
-          >
-            {faqs.map((faq, i) => (
+          <div className="md:col-span-3">
+            {t.faq.items.map((faq, i) => (
               <FaqItem
                 key={i}
                 faq={faq}
@@ -172,7 +145,7 @@ export default function Faq() {
                 onToggle={() => toggle(i)}
               />
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
